@@ -1,103 +1,82 @@
 import Image from "next/image";
+import SignUpModal from "@/components/SignUpModal";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="relative min-h-screen w-full overflow-hidden bg-black text-white font-[Montserrat]">
+      {/* Background Video */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 h-full w-full object-cover opacity-15"
+      >
+        <source src="/bg-video.mp4" type="video/mp4" />
+      </video>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+      {/* Content Container */}
+      <div className="relative z-10 h-full px-8 sm:px-12 lg:px-16">
+        {/* Navigation */}
+        <nav className="flex items-center justify-between py-6">
+          <div className="flex items-center">
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+              src="/logo.svg"
+              alt="Flowweave"
+              width={100}
+              height={100}
+              className="rounded"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            <span className="text-2xl font-bold tracking-wide">Flowweave</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <SignUpModal>
+              <button 
+                className="group flex items-center rounded-full bg-white px-8 py-2.5 text-sm font-medium text-[#1E0044] transition-all hover:bg-white/90"
+              >
+                SIGN UP
+                <Image 
+                  src="/Arrow.svg" 
+                  alt="→" 
+                  width={12} 
+                  height={12} 
+                  className="ml-2 transition-transform duration-300 ease-in-out group-hover:rotate-45" 
+                />
+              </button>
+            </SignUpModal>
+          </div>
+        </nav>
+
+        {/* Hero Section */}
+        <div className="mt-40 max-w-4xl">
+          <h1 className="text-[5.5rem] font-light leading-[1.2] tracking-[-0.02em]">
+            Create{" "}
+            <span className="inline-block bg-gradient-to-r italic from-[#B341FF] to-[#D83DFF] bg-clip-text pb-2 text-transparent">
+              permanent
+            </span>
+            <br />
+            workflows{" "}
+            <a
+              href="https://app_flowweave.ar.io"
+              target="_blank"
+              rel="noopener noreferrer" 
+              className="inline-flex items-center rounded-full bg-white hover:rotate-45 transition-all duration-300 ease-in-out px-4 py-2"
+            >
+              <Image
+                src="/Arrow.svg"
+                alt="→"
+                width={44}
+                height={44}
+                className="translate-y-[-1px] m-2"
+              />
+            </a>
+          </h1>
+          <p className="mt-8 max-w-2xl text-xl leading-relaxed tracking-wide text-gray-400">
+            A no-code automation platform for building composable workflows using
+            decentralized AO processes.
+          </p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </div>
     </div>
   );
 }
