@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { supabase } from '@/lib/supabase';
 
@@ -15,6 +15,21 @@ export default function SignUpModal({ children }: SignUpModalProps) {
   const [showPasswordForm, setShowPasswordForm] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  // Handle auth redirect
+  useEffect(() => {
+    // Check if we have a hash in the URL (auth redirect)
+    if (window.location.hash) {
+      // Get the access token from the URL
+      const hashParams = new URLSearchParams(window.location.hash.substring(1));
+      if (hashParams.get('access_token')) {
+        // Clear the hash from the URL
+        window.history.replaceState(null, '', window.location.pathname);
+        // Close the modal
+        setIsOpen(false);
+      }
+    }
+  }, []);
 
   const handleEmailContinue = (e: React.FormEvent) => {
     e.preventDefault();
