@@ -12,8 +12,16 @@ export default function SignUpModal({ children }: SignUpModalProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [showPasswordForm, setShowPasswordForm] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleEmailContinue = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email) {
+      setShowPasswordForm(true);
+    }
+  };
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,9 +42,9 @@ export default function SignUpModal({ children }: SignUpModalProps) {
       if (data) {
         alert('Check your email for the confirmation link!');
         setIsOpen(false);
-        // Reset form
         setEmail('');
         setPassword('');
+        setShowPasswordForm(false);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
@@ -73,7 +81,7 @@ export default function SignUpModal({ children }: SignUpModalProps) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div 
         className="absolute inset-0 bg-black/50 backdrop-blur-sm"
@@ -81,94 +89,107 @@ export default function SignUpModal({ children }: SignUpModalProps) {
       />
       
       {/* Modal */}
-      <div className="relative z-10 w-full max-w-md rounded-2xl bg-[#1E0044] p-8 shadow-xl">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-white">Create Account</h2>
-          <button 
-            onClick={() => setIsOpen(false)}
-            className="text-white/60 hover:text-white transition-colors"
-          >
-            ✕
-          </button>
-        </div>
-
-        {/* Google Sign Up Button */}
-        <button
-          onClick={handleGoogleSignUp}
-          className="group mb-4 flex w-full items-center justify-center gap-3 rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-medium text-white transition-all hover:bg-white/10"
-        >
+      <div className="relative z-10 w-full max-w-md rounded-[32px] bg-[#1E0044] p-8 shadow-xl">
+        <div className="flex flex-col items-center text-center">
+          {/* Logo */}
           <Image
-            src="/google.svg"
-            alt="Google"
-            width={20}
-            height={20}
+            src="/logo.svg"
+            alt="Flowweave"
+            width={100}
+            height={100}
+            className="mb-6"
           />
-          Continue with Google
-        </button>
 
-        <div className="relative my-6">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-white/10"></div>
-          </div>
-          <div className="relative flex justify-center text-sm">
-            <span className="bg-[#1E0044] px-4 text-white/60">Or continue with email</span>
-          </div>
-        </div>
+          {!showPasswordForm ? (
+            <>
+              {/* OAuth Buttons */}
+              <button
+                onClick={handleGoogleSignUp}
+                className="mb-4 flex w-full items-center justify-center gap-3 rounded-full bg-[#2A1B3D] px-6 py-4 text-[1rem] font-normal text-white/90 transition-all hover:bg-[#2A1B3D]/80"
+              >
+                <Image
+                  src="/google.svg"
+                  alt="Google"
+                  width={20}
+                  height={20}
+                />
+                Continue with Google
+              </button>
 
-        <form onSubmit={handleSignUp} className="space-y-4">
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-white/80 mb-1">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-lg bg-white/10 px-4 py-2.5 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-purple-500"
-              placeholder="Enter your email"
-              required
-            />
-          </div>
+              {/* Divider */}
+              <div className="relative mb-6 w-full">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-white/10"></div>
+                </div>
+                <div className="relative flex justify-center">
+                  <span className="bg-[#1E0044] px-4 text-[1rem] text-white/60">or</span>
+                </div>
+              </div>
 
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-white/80 mb-1">
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-lg bg-white/10 px-4 py-2.5 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-purple-500"
-              placeholder="Create a password"
-              required
-            />
-          </div>
-
-          {error && (
-            <p className="text-red-400 text-sm">{error}</p>
+              {/* Email Input */}
+              <form onSubmit={handleEmailContinue} className="w-full">
+                <div className="relative mb-4">
+                  <div className="pointer-events-none absolute inset-y-0 left-4 flex items-center">
+                    <svg className="h-5 w-5 text-white/40" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z" />
+                      <path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z" />
+                    </svg>
+                  </div>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email"
+                    className="w-full rounded-full bg-[#2A1B3D] px-12 py-4 text-[1rem] text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    required
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="w-full rounded-full bg-[#6366F1] px-6 py-4 text-[1rem] font-normal text-white transition-all hover:bg-[#6366F1]/90"
+                >
+                  Continue with email
+                </button>
+              </form>
+            </>
+          ) : (
+            <form onSubmit={handleSignUp} className="w-full">
+              <div className="relative mb-4">
+                <div className="pointer-events-none absolute inset-y-0 left-4 flex items-center">
+                  <svg className="h-5 w-5 text-white/40" viewBox="0 0 24 24" fill="currentColor">
+                    <path fillRule="evenodd" d="M12 1.5a5.25 5.25 0 00-5.25 5.25v3a3 3 0 00-3 3v6.75a3 3 0 003 3h10.5a3 3 0 003-3v-6.75a3 3 0 00-3-3v-3c0-2.9-2.35-5.25-5.25-5.25zm3.75 8.25v-3a3.75 3.75 0 10-7.5 0v3h7.5z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter your password"
+                  className="w-full rounded-full bg-[#2A1B3D] px-12 py-4 text-[1rem] text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full rounded-full bg-[#6366F1] px-6 py-4 text-[1rem] font-normal text-white transition-all hover:bg-[#6366F1]/90 disabled:opacity-50"
+              >
+                {loading ? 'Creating Account...' : 'Create Account'}
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowPasswordForm(false)}
+                className="mt-4 text-[1rem] text-white/60 hover:text-white"
+              >
+                Back to sign up options
+              </button>
+            </form>
           )}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="group flex w-full items-center justify-center rounded-full bg-white px-8 py-2.5 text-sm font-medium text-[#1E0044] transition-all hover:bg-white/90 disabled:opacity-50"
-          >
-            {loading ? 'Creating Account...' : (
-              <>
-                SIGN UP WITH EMAIL
-                <Image 
-                  src="/Arrow.svg" 
-                  alt="→" 
-                  width={12} 
-                  height={12} 
-                  className="ml-2 transition-transform duration-300 ease-in-out group-hover:rotate-45" 
-                />
-              </>
-            )}
-          </button>
-        </form>
+          {error && (
+            <p className="mt-4 text-sm text-red-400">{error}</p>
+          )}
+        </div>
       </div>
     </div>
   );
